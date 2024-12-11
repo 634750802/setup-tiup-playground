@@ -20,6 +20,7 @@ const kv = parseInt(core.getInput('kv'));
 const pb = parseInt(core.getInput('pb'));
 const tiflash = parseInt(core.getInput('tiflash'));
 const clusterId = core.getInput('cluster-id');
+const timeout = parseInt(core.getInput('timeout') || '60');
 
 startCluster({
   version,
@@ -30,11 +31,11 @@ startCluster({
   tiflash,
 });
 
-core.info(`Waiting tiup playground start`)
+core.info(`Waiting tiup playground start (cluster-id: ${clusterId})`)
 
 let up = false;
 
-for (let i = 1; i <= 30; i++) {
+for (let i = 1; i <= timeout; i++) {
   up = await checkClusterStatus(clusterId);
   if (up) {
     break

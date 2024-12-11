@@ -24,6 +24,10 @@ inputs:
     description: 'PD instances count'
     required: false
     default: 1
+  timeout:
+    description: 'Startup timeout'
+    required: false
+    default: 60
 outputs:
   version:
     description: 'The TiDB version'
