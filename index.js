@@ -1,9 +1,10 @@
 import { checkClusterStatus, checkTiUPVersion, installTiUP, startCluster, tiup } from "./utils.js";
 import core from '@actions/core';
 
+const version = core.getInput('version') || 'v8.1.0';
 
 let tiupVersion;
-const tiupBinPath = await installTiUP()
+const tiupBinPath = await installTiUP(version)
 core.exportVariable('TIUP_PATH', `${tiupBinPath}`);
 core.info(`Installed tiup at: ${tiup()}`)
 tiupVersion = await checkTiUPVersion();
@@ -14,7 +15,6 @@ if (!tiupVersion) {
 
 core.info(`Using tiup: ${tiupVersion}`);
 
-const version = core.getInput('version');
 const db = parseInt(core.getInput('db'));
 const kv = parseInt(core.getInput('kv'));
 const pb = parseInt(core.getInput('pb'));
