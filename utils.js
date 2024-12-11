@@ -51,7 +51,9 @@ export async function waitChildProcess (cp) {
     cp.on('exit', (code) => {
       resolve(code);
     })
-    cp.on('error', reject)
+    cp.on('error', () => {
+      resolve(-1)
+    })
   })
 
   const [stdout, stderr, code] = await Promise.all([stdoutPromise, stderrPromise, processPromise]);
