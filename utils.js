@@ -92,6 +92,9 @@ export async function installTiUP () {
 
   const { stdout, stderr, code } = await waitChildProcess(proc);
 
+  core.info(stdout);
+  core.error(stderr);
+
   if (code === 0) {
     const PREFIX = 'Installed path: ';
     const line = stdout.split('\n')
