@@ -12,6 +12,7 @@
     "@types/node": "^20.17.9"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1"
+    "@actions/core": "^1.11.1",
+    "strip": "^3.0.0"
   }
 }
