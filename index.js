@@ -8,6 +8,7 @@ if (!tiupVersion) {
   const tiupBinPath = await installTiUP()
   core.exportVariable('PATH', `${tiupBinPath}:${process.env.PATH}`);
   core.info(`Installed tiup at: ${tiupBinPath}`)
+  core.info(`PATH ${process.env.PATH}`)
   tiupVersion = await checkTiUPVersion();
 }
 
