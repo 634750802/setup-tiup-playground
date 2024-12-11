@@ -101,13 +101,14 @@ export async function installTiUP () {
     if (!line) {
       throw new Error(`Failed to install TiUP: Cannot extract installed path`)
     }
+    const binPath = path.dirname(line.slice(PREFIX.length).trim());
 
-    const { code } = await waitChildProcess(child_process.spawn(tiup(), ['install', 'client']));
+    const { code } = await waitChildProcess(child_process.spawn(path.join(binPath, 'tiup'), ['install', 'client']));
     if (code !== 0) {
       throw new Error(`Failed to install tiup client`)
     }
 
-    return path.dirname(line.slice(PREFIX.length).trim());
+    return binPath;
   } else {
     throw new Error(`Failed to install TiUP: ${stderr}`)
   }
