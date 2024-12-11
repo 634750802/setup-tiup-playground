@@ -1,0 +1,29 @@
+name: 'Setup TiUP Playground'
+description: 'Setup TiUP and start a TiUP clust'
+inputs:
+  version:  # id of input
+    description: 'TiDB Version'
+    required: false
+  tidb:
+    description: 'TiDB instances count'
+    required: false
+    default: 1
+  tiflash:
+    description: 'TiFlash instances count'
+    required: false
+    default: 1
+  tikv:
+    description: 'TiKV instances count'
+    required: false
+    default: 1
+  pd:
+    description: 'PD instances count'
+    required: false
+    default: 1
+outputs:
+  version:
+    description: 'The TiDB version'
+runs:
+  using: 'node20'
+  main: './index.js'
+  post: './cleanup.js'
