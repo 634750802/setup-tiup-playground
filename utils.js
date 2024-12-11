@@ -66,7 +66,7 @@ export async function waitChildProcess (cp) {
 }
 
 export async function checkTiUPVersion () {
-  const proc = child_process.spawn(tiup(), ['-v'])
+  const proc = child_process.spawn(tiup(), ['-v'], { shell: true })
 
   const { stdout, stderr, code } = await waitChildProcess(proc);
 
@@ -153,6 +153,7 @@ export function startCluster (options) {
   const cp = child_process.spawn(tiup(), args, {
     detached: true,
     stdio: 'ignore',
+    shell: true,
   })
   if (!cp.pid) {
     throw new Error('Failed to start tiup playground')
@@ -166,7 +167,7 @@ export function startCluster (options) {
  * @returns {Promise<void>}
  */
 export function stopCluster (clusterId) {
-  const cp = child_process.spawn(tiup(), ['clean', clusterId])
+  const cp = child_process.spawn(tiup(), ['clean', clusterId], { shell: true })
   if (!cp.pid) {
     throw new Error('Failed to stop tiup playground')
   }
