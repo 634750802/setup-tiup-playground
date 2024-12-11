@@ -1,5 +1,6 @@
 import * as child_process from "node:child_process";
 import * as path from 'node:path';
+import core from "@actions/core";
 
 /**
  * @typedef {Object} ChildProcessResult
@@ -67,6 +68,7 @@ export async function checkTiUPVersion (bin) {
   const { stdout, code } = await waitChildProcess(proc);
 
   if (code === 0) {
+    core.info(stdout);
     return stdout.split(' ', 2)[0]
   }
   return null
