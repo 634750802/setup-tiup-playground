@@ -80,7 +80,12 @@ export async function checkTiUPVersion () {
   }
 }
 
-export async function installTiUP () {
+/**
+ *
+ * @param {string} version
+ * @returns {Promise<string>}
+ */
+export async function installTiUP (version) {
   const installScript = await fetch('https://tiup-mirrors.pingcap.com/install.sh')
     .then(res => {
       if (!res.ok) {
@@ -103,7 +108,14 @@ export async function installTiUP () {
     }
     const binPath = path.dirname(line.slice(PREFIX.length).trim());
 
-    const { code } = await waitChildProcess(child_process.spawn(path.join(binPath, 'tiup'), ['install', 'client']));
+    const { code } = await waitChildProcess(child_process.spawn(path.join(binPath, 'tiup'), [
+      'install',
+      'client',
+      `tidb:${version}`,
+      `tikv:${version}`,
+      `pd:${version}`,
+      `tiflash:${version}`,
+    ]));
     if (code !== 0) {
       throw new Error(`Failed to install tiup client`)
     }
