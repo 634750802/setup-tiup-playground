@@ -65,13 +65,15 @@ export async function waitChildProcess (cp) {
 export async function checkTiUPVersion (bin) {
   const proc = child_process.exec(`bash -c "${bin} -v"`)
 
-  const { stdout, code } = await waitChildProcess(proc);
+  const { stdout, stderr, code } = await waitChildProcess(proc);
 
   if (code === 0) {
     core.info(stdout);
     return stdout.split(' ', 2)[0]
+  } else {
+    core.error(stderr);
+    return null
   }
-  return null
 }
 
 export async function installTiUP () {

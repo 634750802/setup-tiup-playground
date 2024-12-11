@@ -11,6 +11,10 @@ if (!tiupVersion) {
   tiupVersion = await checkTiUPVersion(tiupBinPath);
 }
 
+if (!tiupVersion) {
+  throw new Error('cannot install tiup');
+}
+
 core.saveState('tiup-bin-path', tiupBinPath);
 core.info(`Use tiup: ${tiupBinPath} ${tiupVersion}`);
 
