@@ -1,6 +1,5 @@
 import { checkClusterStatus, checkTiUPVersion, installTiUP, startCluster, tiup } from "./utils.js";
 import core from '@actions/core';
-import { randomUUID } from "node:crypto";
 
 
 let tiupVersion;
@@ -20,9 +19,7 @@ const db = parseInt(core.getInput('db'));
 const kv = parseInt(core.getInput('kv'));
 const pb = parseInt(core.getInput('pb'));
 const tiflash = parseInt(core.getInput('tiflash'));
-
-const clusterId = randomUUID().replace(/-/g, '').slice(0, 8);
-
+const clusterId = core.getInput('cluster-id');
 
 startCluster({
   version,
@@ -32,8 +29,6 @@ startCluster({
   pb,
   tiflash,
 });
-
-core.saveState('cluster-id', clusterId);
 
 core.info(`Waiting tiup playground start`)
 

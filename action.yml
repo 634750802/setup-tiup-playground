@@ -1,9 +1,13 @@
 name: 'Setup TiUP Playground'
 description: 'Setup TiUP and start a TiUP clust'
 inputs:
-  version:  # id of input
+  version:
     description: 'TiDB Version'
     required: false
+  cluster-id:
+    description: 'TiUP Playground cluster ID'
+    required: false
+    default: 'tidb'
   tidb:
     description: 'TiDB instances count'
     required: false
