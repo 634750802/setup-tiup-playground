@@ -66,7 +66,7 @@ export async function waitChildProcess (cp) {
 }
 
 export async function checkTiUPVersion () {
-  const proc = child_process.spawn('tiup', ['-v'], { env: process.env })
+  const proc = child_process.spawn(tiup(), ['-v'], { env: process.env })
 
   const { stdout, stderr, code } = await waitChildProcess(proc);
 
@@ -150,7 +150,7 @@ export function startCluster (options) {
     '--pd.host', '0.0.0.0'
   )
 
-  const cp = child_process.spawn('tiup', args, {
+  const cp = child_process.spawn(tiup(), args, {
     detached: true,
     stdio: 'ignore',
     env: process.env
@@ -167,7 +167,7 @@ export function startCluster (options) {
  * @returns {Promise<void>}
  */
 export function stopCluster (clusterId) {
-  const cp = child_process.spawn('tiup', ['clean', clusterId], {
+  const cp = child_process.spawn(tiup(), ['clean', clusterId], {
     env: process.env
   })
   if (!cp.pid) {
@@ -203,4 +203,8 @@ export async function checkClusterStatus (clusterId) {
     })
 
   })
+}
+
+function tiup () {
+  return path.join(process.env.TIUP_PATH, 'tiup')
 }
