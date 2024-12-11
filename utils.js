@@ -63,7 +63,7 @@ export async function waitChildProcess (cp) {
 }
 
 export async function checkTiUPVersion (bin) {
-  const proc = child_process.exec(`bash -c "${bin} -v"`)
+  const proc = child_process.spawn(bin, ['-v'])
 
   const { stdout, stderr, code } = await waitChildProcess(proc);
 
