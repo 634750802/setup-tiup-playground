@@ -8,7 +8,7 @@ let tiupVersion = await checkTiUPVersion(tiupBinPath);
 if (!tiupVersion) {
   tiupBinPath = await installTiUP()
   core.info(`Installed tiup at: ${tiupBinPath}`)
-  tiupVersion = await checkTiUPVersion();
+  tiupVersion = await checkTiUPVersion(tiupBinPath);
 }
 
 core.saveState('tiup-bin-path', tiupBinPath);
