@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "strip": "^3.0.0"
+    "strip-color": "^0.1.0"
   }
 }

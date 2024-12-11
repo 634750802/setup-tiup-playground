@@ -1,7 +1,7 @@
 import * as child_process from "node:child_process";
 import * as path from 'node:path';
 import core from "@actions/core";
-import strip from 'strip'
+import strip from 'strip-color'
 
 /**
  * @typedef {Object} ChildProcessResult
@@ -42,7 +42,7 @@ export async function readStream (readable, encoding = 'utf8') {
 
 /**
  *
- * @param {NodeJS.ChildProcessWithoutNullStreams | NodeJS.ChildProcess} cp
+ * @param {ChildProcessWithoutNullStreams | ChildProcess} cp
  * @returns {Promise<ChildProcessResult>}
  */
 export async function waitChildProcess (cp) {
@@ -95,7 +95,7 @@ export async function installTiUP () {
 
   if (code === 0) {
     const PREFIX = 'Installed path: ';
-    const line = strip(stdout).split('\n')
+    const line = stdout.split('\n').map(s => strip(s))
       .find(line => line.startsWith(PREFIX));
 
     if (!line) {
