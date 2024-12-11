@@ -1,7 +1,7 @@
 import * as child_process from "node:child_process";
 import * as path from 'node:path';
 import core from "@actions/core";
-import * as strip from 'strip'
+import strip from 'strip'
 
 /**
  * @typedef {Object} ChildProcessResult
@@ -92,9 +92,6 @@ export async function installTiUP () {
   const proc = child_process.exec(installScript)
 
   const { stdout, stderr, code } = await waitChildProcess(proc);
-
-  core.info(stdout);
-  core.error(stderr);
 
   if (code === 0) {
     const PREFIX = 'Installed path: ';
