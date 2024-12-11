@@ -94,7 +94,7 @@ export async function installTiUP () {
       throw new Error(`Failed to install TiUP: Cannot extract installed path`)
     }
 
-    return path.dirname(line.slice(PREFIX.length).trim());
+    return line.slice(PREFIX.length).trim();
   } else {
     throw new Error(`Failed to install TiUP: ${stderr}`)
   }
