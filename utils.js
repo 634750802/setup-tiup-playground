@@ -41,7 +41,7 @@ export async function readStream (readable, encoding = 'utf8') {
 
 /**
  *
- * @param {NodeJS.ChildProcess} cp
+ * @param {NodeJS.ChildProcessWithoutNullStreams} cp
  * @returns {Promise<ChildProcessResult>}
  */
 export async function waitChildProcess (cp) {
@@ -62,8 +62,8 @@ export async function waitChildProcess (cp) {
   }
 }
 
-export async function checkTiUPVersion (bin) {
-  const proc = child_process.spawn(bin, ['-v'])
+export async function checkTiUPVersion () {
+  const proc = child_process.spawn('tiup', ['-v'])
 
   const { stdout, stderr, code } = await waitChildProcess(proc);
 
@@ -98,7 +98,7 @@ export async function installTiUP () {
       throw new Error(`Failed to install TiUP: Cannot extract installed path`)
     }
 
-    return line.slice(PREFIX.length).trim();
+    return path.dirname(line.slice(PREFIX.length).trim());
   } else {
     throw new Error(`Failed to install TiUP: ${stderr}`)
   }
@@ -119,10 +119,9 @@ export async function installTiUP () {
 
 /**
  *
- * @param {string} bin
  * @param {PlaygroundClusterOptions} options
  */
-export function startCluster (bin, options) {
+export function startCluster (options) {
   const args = ['playground']
 
   if (options.version) {
@@ -148,7 +147,7 @@ export function startCluster (bin, options) {
     '--pd.host', '0.0.0.0'
   )
 
-  const cp = child_process.spawn(bin, args, {
+  const cp = child_process.spawn('tiup', args, {
     detached: true,
     stdio: 'ignore',
   })
@@ -160,12 +159,11 @@ export function startCluster (bin, options) {
 
 /**
  *
- * @param {string} bin
  * @param {string} clusterId
  * @returns {Promise<void>}
  */
-export function stopCluster (bin, clusterId) {
-  const cp = child_process.spawn(bin, ['clean', clusterId])
+export function stopCluster (clusterId) {
+  const cp = child_process.spawn('tiup', ['clean', clusterId])
   if (!cp.pid) {
     throw new Error('Failed to stop tiup playground')
   }
@@ -181,12 +179,11 @@ export function stopCluster (bin, clusterId) {
 }
 
 /**
- * @param {string} bin
  * @param {string} clusterId
  * @returns {Promise<void>}
  */
-export async function checkClusterStatus (bin, clusterId) {
-  const cp = child_process.exec(`bash -c "echo 'SELECT 1;' | ${bin} client ${clusterId}"`)
+export async function checkClusterStatus (clusterId) {
+  const cp = child_process.exec(`bash -c "echo 'SELECT 1;' | tiup client ${clusterId}"`)
   if (!cp.pid) {
     throw new Error('Failed to stop tiup playground')
   }

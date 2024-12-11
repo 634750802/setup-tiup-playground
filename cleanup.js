@@ -1,15 +1,14 @@
 import core from "@actions/core";
 import { checkClusterStatus, stopCluster } from "./utils.js";
 
-const tiupBinPath = core.getState('tiup-bin-path') || 'tiup';
 const clusterId = core.getInput('cluster-id')
 
-await stopCluster(tiupBinPath, clusterId);
+await stopCluster(clusterId);
 
 let up = true;
 
 for (let i = 1; i <= 30; i++) {
-  up = await checkClusterStatus(tiupBinPath, clusterId);
+  up = await checkClusterStatus(clusterId);
   if (!up) {
     break
   }

@@ -2,21 +2,20 @@ import { checkClusterStatus, checkTiUPVersion, installTiUP, startCluster } from 
 import core from '@actions/core';
 import { randomUUID } from "node:crypto";
 
-let tiupBinPath = 'tiup';
-let tiupVersion = await checkTiUPVersion(tiupBinPath);
+let tiupVersion = await checkTiUPVersion();
 
 if (!tiupVersion) {
-  tiupBinPath = await installTiUP()
+  const tiupBinPath = await installTiUP()
+  core.exportVariable('PATH', `${tiupBinPath}:${process.env.PATH}`);
   core.info(`Installed tiup at: ${tiupBinPath}`)
-  tiupVersion = await checkTiUPVersion(tiupBinPath);
+  tiupVersion = await checkTiUPVersion();
 }
 
 if (!tiupVersion) {
   throw new Error('cannot install tiup');
 }
 
-core.saveState('tiup-bin-path', tiupBinPath);
-core.info(`Use tiup: ${tiupBinPath} ${tiupVersion}`);
+core.info(`Using tiup: ${tiupVersion}`);
 
 const version = core.getInput('version');
 const db = parseInt(core.getInput('db'));
@@ -27,7 +26,7 @@ const tiflash = parseInt(core.getInput('tiflash'));
 const clusterId = randomUUID().replace(/-/g, '').slice(0, 8);
 
 
-startCluster(tiupBinPath, {
+startCluster({
   version,
   tag: clusterId,
   db,
@@ -43,7 +42,7 @@ core.info(`Waiting tiup playground start`)
 let up = false;
 
 for (let i = 1; i <= 30; i++) {
-  up = await checkClusterStatus(tiupBinPath, clusterId);
+  up = await checkClusterStatus(clusterId);
   if (up) {
     break
   }
