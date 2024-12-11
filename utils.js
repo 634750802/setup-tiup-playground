@@ -205,6 +205,6 @@ export async function checkClusterStatus (clusterId) {
   })
 }
 
-function tiup () {
+export function tiup () {
   return path.join(process.env.TIUP_PATH, 'tiup')
 }

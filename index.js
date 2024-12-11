@@ -1,4 +1,4 @@
-import { checkClusterStatus, checkTiUPVersion, installTiUP, startCluster } from "./utils.js";
+import { checkClusterStatus, checkTiUPVersion, installTiUP, startCluster, tiup } from "./utils.js";
 import core from '@actions/core';
 import { randomUUID } from "node:crypto";
 
@@ -6,7 +6,7 @@ import { randomUUID } from "node:crypto";
 let tiupVersion;
 const tiupBinPath = await installTiUP()
 core.exportVariable('TIUP_PATH', `${tiupBinPath}`);
-core.info(`Installed tiup at: ${tiupBinPath}`)
+core.info(`Installed tiup at: ${tiup()}`)
 tiupVersion = await checkTiUPVersion();
 
 if (!tiupVersion) {
