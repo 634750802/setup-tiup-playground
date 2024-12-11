@@ -40,7 +40,7 @@ export async function readStream (readable, encoding = 'utf8') {
 
 /**
  *
- * @param {ChildProcess} cp
+ * @param {NodeJS.ChildProcess} cp
  * @returns {Promise<ChildProcessResult>}
  */
 export async function waitChildProcess (cp) {
