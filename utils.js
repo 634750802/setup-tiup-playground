@@ -51,8 +51,8 @@ export async function waitChildProcess (cp) {
     cp.on('exit', (code) => {
       resolve(code);
     })
-    cp.on('error', () => {
-      resolve(-1)
+    cp.on('error', (err) => {
+      reject(err)
     })
   })
 
