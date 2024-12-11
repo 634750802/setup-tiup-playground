@@ -41,7 +41,7 @@ export async function readStream (readable, encoding = 'utf8') {
 
 /**
  *
- * @param {NodeJS.ChildProcessWithoutNullStreams} cp
+ * @param {NodeJS.ChildProcessWithoutNullStreams | NodeJS.ChildProcess} cp
  * @returns {Promise<ChildProcessResult>}
  */
 export async function waitChildProcess (cp) {
@@ -51,6 +51,7 @@ export async function waitChildProcess (cp) {
     cp.on('exit', (code) => {
       resolve(code);
     })
+    cp.on('error', reject)
   })
 
   const [stdout, stderr, code] = await Promise.all([stdoutPromise, stderrPromise, processPromise]);
