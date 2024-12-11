@@ -42,7 +42,7 @@ export async function readStream (readable, encoding = 'utf8') {
 
 /**
  *
- * @param {ChildProcessWithoutNullStreams | ChildProcess} cp
+ * @param {import('node:child_process').ChildProcessWithoutNullStreams | import('node:child_process').ChildProcess} cp
  * @returns {Promise<ChildProcessResult>}
  */
 export async function waitChildProcess (cp) {
@@ -100,6 +100,11 @@ export async function installTiUP () {
 
     if (!line) {
       throw new Error(`Failed to install TiUP: Cannot extract installed path`)
+    }
+
+    const { code } = await waitChildProcess(child_process.spawn(tiup(), ['install', 'client']));
+    if (code !== 0) {
+      throw new Error(`Failed to install tiup client`)
     }
 
     return path.dirname(line.slice(PREFIX.length).trim());
